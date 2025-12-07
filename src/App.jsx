@@ -3,7 +3,7 @@ import './App.css'
 import Login from './components/Login.jsx'
 import SignUp from './components/SignUp.jsx'
 function App() {
-  const [isLoggin, setisLoggin] = useState(true);
+  const [isLoggin, setisLoggin] = useState(false);
 
 
   return (
