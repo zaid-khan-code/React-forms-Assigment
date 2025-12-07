@@ -18,8 +18,6 @@ export default function SignUp(props) {
         // sets the new User into the users and check if its alredy exists
 
         const isDuplicate = users.some(user => user.Email === email);
-        console.log(users.some(user => user.email === email));
-        console.log(isDuplicate);
         if (isDuplicate) {
             setErrorMessage("User with this email already exists!");
             return;
@@ -27,6 +25,7 @@ export default function SignUp(props) {
         setUsers(prev => {
             const allUser = [...prev, forms];
             localStorage.setItem("StoredUser", JSON.stringify(allUser));
+            setErrorMessage("");
             return allUser;
         });
 
