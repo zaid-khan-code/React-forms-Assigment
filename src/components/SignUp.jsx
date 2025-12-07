@@ -5,13 +5,21 @@ export default function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("StoredUser")) || []);
+  const [users, setUsers] = useState(
+    JSON.parse(localStorage.getItem("StoredUser")) || []
+  );
   const [resoleMessage, setresoleMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleEvent(e) {
     e.preventDefault();
     userCheck();
+    
+  if (setresoleMessage !== "") {
+    setTimeout(() => {
+      setresoleMessage("");
+    }, 2000);
+  }
   }
 
   function userCheck() {
@@ -22,21 +30,25 @@ export default function SignUp(props) {
     const isDuplicate = users.some((user) => user.Email === email);
     if (isDuplicate) {
       setErrorMessage("User with this email already exists!");
-      setresoleMessage("")
+      setresoleMessage("");
       return;
     }
     setUsers((prev) => {
       const allUser = [...prev, forms];
       localStorage.setItem("StoredUser", JSON.stringify(allUser));
+      fieldCleaner();
       setErrorMessage("");
       return allUser;
     });
-    setresoleMessage("Logged In Sucessfully")
-
+    setresoleMessage("Logged In Sucessfully");
   }
 
-  function cleanField() {
-    
+
+  function fieldCleaner() {
+    setConfirmPassword("");
+    setEmail("");
+    setPassword("");
+    setFullName("");
   }
 
   function passwordChecker() {
@@ -84,11 +96,11 @@ export default function SignUp(props) {
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-8 animate-slideDown">
             Sign Up
           </h1>
-          {resoleMessage && (
-            <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded animate-shake">
-              <p className="font-semibold text-sm">{resoleMessage}</p>
-            </div>
-          )}
+            {resoleMessage && (
+                <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded animate-shake">
+                <p className="font-semibold text-sm">{resoleMessage}</p>
+                </div>
+            )}
 
           <div className="space-y-2">
             <label
@@ -102,6 +114,7 @@ export default function SignUp(props) {
               id="fullname"
               name="fullname"
               required
+              value={fullName}
               onChange={(e) => {
                 setFullName(e.target.value);
               }}
@@ -127,6 +140,7 @@ export default function SignUp(props) {
                 setEmail(e.target.value);
               }}
               required
+              value={email}
               placeholder="Enter your email"
               pattern="^[a-z][a-z0-9]*@[a-z0-9]+\.[a-z]{2,}$"
               title="Email must start with a letter, contain @ and ., only lowercase letters and numbers"
@@ -148,6 +162,7 @@ export default function SignUp(props) {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              value={password}
               placeholder="Enter your password"
               pattern="^[a-z0-9]{8,}$"
               required
@@ -170,6 +185,7 @@ export default function SignUp(props) {
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
               }}
+              value={confirmPassword}
               onKeyDown={passwordChecker}
               onKeyUp={passwordChecker}
               placeholder="Confirm your password"
