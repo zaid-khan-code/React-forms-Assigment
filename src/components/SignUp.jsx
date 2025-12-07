@@ -15,9 +15,10 @@ export default function SignUp(props) {
     e.preventDefault();
     userCheck();
     
-  if (setresoleMessage !== "") {
+  if (setresoleMessage !== "" || setErrorMessage !== "") {
     setTimeout(() => {
       setresoleMessage("");
+      setErrorMessage("");
     }, 2000);
   }
   }
